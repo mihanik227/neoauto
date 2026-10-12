@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeoAuto — Премиальные электромобили в Минске</title>
+<style>
+  /* ============================================================
+     СБРОС И БАЗОВЫЕ НАСТРОЙКИ
+     ============================================================ */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    background: #000000;
+    color: #f5f5f7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  /* Универсальный контейнер */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ============================================================
+     ШАПКА
+     ============================================================ */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #f5f5f7;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    font-size: 24px;
+    line-height: 1;
+    color: #f5f5f7;
+  }
+
+  .logo span.accent {
+    background: linear-gradient(135deg, #2997ff, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  nav {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+  }
+
+  nav a {
+    color: #a1a1a6;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: #f5f5f7; }
+
+  .phone-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f5f5f7;
+    text-decoration: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .phone-btn:hover {
+    background: rgba(41, 151, 255, 0.15);
+    border-color: rgba(41, 151, 255, 0.5);
+    color: #4dabff;
+  }
+
+  /* ============================================================
+     ГЛАВНЫЙ ЭКРАН (HERO)
+     ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* Фоновое фото автомобиля */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1617704548623-340376564e68?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35) saturate(1.2);
+    z-index: 0;
+  }
+
+  /* Затемняющий градиент поверх фото, чтобы текст был читаемым */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 80%),
+                linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero .tag {
+    display: inline-block;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    background: rgba(41, 151, 255, 0.15);
+    color: #2997ff;
+    border: 1px solid rgba(41, 151, 255, 0.4);
+    margin-bottom: 26px;
+    box-shadow: 0 0 30px -8px rgba(41, 151, 255, 0.6);
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 76px);
+    font-weight: 700;
+    letter-spacing: -2.5px;
+    line-height: 1.02;
+    margin-bottom: 24px;
+    background: linear-gradient(180deg, #ffffff 0%, #86868b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: clamp(16px, 2vw, 21px);
+    color: #a1a1a6;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+
+  .btn-hero {
+    display: inline-block;
+    padding: 18px 44px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #2997ff 0%, #0071e3 100%);
+    box-shadow:
+      0 15px 40px -12px rgba(41, 151, 255, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+  }
+
+  .btn-hero:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #4dabff 0%, #2997ff 100%);
+    box-shadow:
+      0 0 25px rgba(41, 151, 255, 0.9),
+      0 0 50px rgba(41, 151, 255, 0.6),
+      0 0 100px rgba(41, 151, 255, 0.4),
+      0 20px 50px -12px rgba(0, 113, 227, 0.8);
+  }
+
+  .btn-hero:active {
+    transform: scale(0.98);
+  }
+
+  /* ============================================================
+     СЕКЦИЯ КВИЗА
+     ============================================================ */
+  .quiz-section {
+    padding: 100px 0 120px;
+    background: radial-gradient(ellipse at top, rgba(41, 151, 255, 0.1) 0%, transparent 60%);
+    position: relative;
+  }
+
+  .section-head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(30px, 4.5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #86868b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .section-head p {
+    font-size: 16px;
+    color: #86868b;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .quiz-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #1d1d1f 0%, #131314 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 48px 40px;
+    box-shadow:
+      0 40px 100px -30px rgba(0, 0, 0, 0.9),
+      0 0 80px -30px rgba(41, 151, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Прогресс-бар сверху квиза */
+  .quiz-progress {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .quiz-progress .step {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .quiz-progress .step.active {
+    background: linear-gradient(90deg, #2997ff, #a78bfa);
+    box-shadow: 0 0 12px rgba(41, 151, 255, 0.7);
+  }
+
+  .quiz-progress .step.done {
+    background: linear-gradient(90deg, #2997ff, #a78bfa);
+  }
+
+  /* Заголовок текущего шага */
+  .quiz-step-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .quiz-step-sub {
+    font-size: 14px;
+    color: #86868b;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  /* Сетка кнопок выбора */
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .quiz-option {
+    padding: 22px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f5f5f7;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease,
+                border-color 0.25s ease, box-shadow 0.25s ease;
+    font-family: inherit;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .quiz-option .opt-icon {
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+
+  .quiz-option .opt-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: #86868b;
+  }
+
+  .quiz-option:hover {
+    transform: translateY(-3px);
+    background: rgba(41, 151, 255, 0.12);
+    border-color: rgba(41, 151, 255, 0.6);
+    box-shadow:
+      0 10px 30px -10px rgba(41, 151, 255, 0.6),
+      0 0 40px -15px rgba(41, 151, 255, 0.5);
+  }
+
+  /* Шаги квиза: по умолчанию скрыты, активный показывается */
+  .quiz-step {
+    display: none;
+  }
+
+  .quiz-step.active {
+    display: block;
+    animation: fadeSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Кнопка «Назад» */
+  .btn-back {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #86868b;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+
+  .btn-back:hover {
+    color: #f5f5f7;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Финальная форма */
+  .final-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #a1a1a6;
+    margin-bottom: 8px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+
+  .form-field input {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 16px;
+    color: #f5f5f7;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: inherit;
+  }
+
+  .form-field input:focus {
+    border-color: #2997ff;
+    background: rgba(41, 151, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.18);
+  }
+
+  .form-field input.error {
+    border-color: #ff453a;
+    box-shadow: 0 0 0 4px rgba(255, 69, 58, 0.15);
+  }
+
+  .btn-final {
+    width: 100%;
+    padding: 18px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2997ff, #0071e3);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow:
+      0 12px 35px -10px rgba(41, 151, 255, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-family: inherit;
+  }
+
+  .btn-final:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 25px rgba(41, 151, 255, 0.9),
+      0 0 50px rgba(41, 151, 255, 0.5),
+      0 18px 45px -10px rgba(41, 151, 255, 0.9);
+  }
+
+  .btn-final:active {
+    transform: scale(0.98);
+  }
+
+  /* Итоговый выбор — плашка сверху финального шага */
+  .summary-badge {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .summary-badge span {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4dabff;
+    background: rgba(41, 151, 255, 0.12);
+    border: 1px solid rgba(41, 151, 255, 0.35);
+    border-radius: 20px;
+  }
+
+  /* ============================================================
+     ОКНО-ЧЕК ПОСЛЕ ОТПРАВКИ ФОРМЫ
+     ============================================================ */
+  .success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s, visibility 0.35s;
+  }
+
+  .success-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .success-card {
+    background: linear-gradient(180deg, #1d1d1f 0%, #131314 100%);
+    border: 1px solid rgba(41, 151, 255, 0.35);
+    border-radius: 26px;
+    max-width: 520px;
+    width: 100%;
+    padding: 44px 36px;
+    text-align: center;
+    box-shadow:
+      0 40px 100px -30px rgba(0, 113, 227, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1.4);
+  }
+
+  .success-overlay.open .success-card {
+    transform: scale(1);
+  }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2997ff, #4ade80);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    color: #fff;
+    box-shadow: 0 15px 50px -12px rgba(41, 151, 255, 0.8);
+  }
+
+  .success-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+
+  .success-card p {
+    font-size: 15px;
+    color: #a1a1a6;
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .success-card p strong {
+    color: #4dabff;
+    font-weight: 600;
+  }
+
+  .success-details {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 24px 0;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #c7c7cc;
+  }
+
+  .success-details strong {
+    color: #f5f5f7;
+  }
+
+  .btn-success-close {
+    padding: 14px 40px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: #0071e3;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: inherit;
+  }
+
+  .btn-success-close:hover {
+    background: #0077ed;
+  }
+
+  .btn-success-close:active {
+    transform: scale(0.98);
+  }
+
+  /* ============================================================
+     ПОДВАЛ
+     ============================================================ */
+  footer {
+    padding: 70px 0 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, #000 0%, #050506 100%);
+    text-align: center;
+  }
+
+  footer h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #2997ff, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  footer p {
+    font-size: 14px;
+    color: #86868b;
+    max-width: 620px;
+    margin: 0 auto 32px;
+    line-height: 1.65;
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    font-family: inherit;
+  }
+
+  /* Telegram — голубая неоновая кнопка */
+  .footer-btn.telegram {
+    background: linear-gradient(135deg, #2997ff, #0071e3);
+    box-shadow:
+      0 12px 35px -10px rgba(41, 151, 255, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .footer-btn.telegram:hover {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 25px rgba(41, 151, 255, 0.9),
+      0 0 50px rgba(41, 151, 255, 0.5),
+      0 18px 45px -10px rgba(41, 151, 255, 0.9);
+  }
+
+  /* WhatsApp — зелёная неоновая кнопка */
+  .footer-btn.whatsapp {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    box-shadow:
+      0 12px 35px -10px rgba(37, 211, 102, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .footer-btn.whatsapp:hover {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 25px rgba(37, 211, 102, 0.9),
+      0 0 50px rgba(37, 211, 102, 0.5),
+      0 18px 45px -10px rgba(37, 211, 102, 0.9);
+  }
+
+  .footer-btn:active {
+    transform: scale(0.98);
+  }
+
+  .footer-info {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 28px;
+    font-size: 12px;
+    color: #6e6e73;
+    line-height: 1.8;
+  }
+
+  .footer-info strong {
+    color: #a1a1a6;
+  }
+
+  /* ============================================================
+     АДАПТИВ ПОД МОБИЛЬНЫЕ
+     ============================================================ */
+  @media (max-width: 900px) {
+    nav { gap: 18px; font-size: 13px; }
+    .quiz-box { padding: 36px 28px; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 18px; }
+
+    /* Прячем навигацию и телефон-кнопку в шапке — оставляем только логотип */
+    nav { display: none; }
+    .phone-btn { padding: 8px 12px; font-size: 12px; }
+
+    .hero {
+      min-height: 80vh;
+      padding: 60px 20px;
+    }
+
+    .hero h1 {
+      letter-spacing: -1.5px;
+    }
+
+    .btn-hero {
+      display: block;
+      width: 100%;
+      padding: 20px 24px;
+      font-size: 17px;
+      min-height: 56px;
+    }
+
+    .quiz-section { padding: 60px 0 70px; }
+
+    .section-head { margin-bottom: 36px; }
+
+    .quiz-box {
+      padding: 30px 22px;
+      border-radius: 22px;
+    }
+
+    /* Кнопки выбора встают в один столбик — удобнее нажимать пальцем */
+    .quiz-options {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .quiz-option {
+      padding: 18px;
+      font-size: 15px;
+    }
+
+    .quiz-step-title { font-size: 20px; }
+    .quiz-step-sub { font-size: 13px; margin-bottom: 24px; }
+
+    .footer-buttons {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-btn {
+      width: 100%;
+      justify-content: center;
+      min-height: 54px;
+    }
+
+    footer { padding: 50px 0 30px; }
+  }
+
+  @media (max-width: 380px) {
+    .logo { font-size: 17px; }
+    .hero h1 { letter-spacing: -1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ШАПКА
+     ============================================================ -->
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">&#63743;</span>
+      <span>Neo<span class="accent">Auto</span></span>
+    </a>
+    <nav>
+      <a href="#catalog">Каталог</a>
+      <a href="#quiz">Опрос</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a href="tel:+375291234567" class="phone-btn">
+      📞 +375 29 123-45-67
+    </a>
+  </div>
+</header>
+
+<!-- ============================================================
+     ГЛАВНЫЙ ЭКРАН
+     ============================================================ -->
+<section class="hero" id="catalog">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="tag">Официальный импорт · Минск</span>
+    <h1>Будущее уже в Беларуси.<br>Электромобили под ключ</h1>
+    <p>Zeekr, BYD, Xiaomi SU7, LiAuto — прямые поставки из Китая. Полное оформление, растаможка и доставка до двери. Работаем с чеком НПД, оплата на БЕЛКАРТ или через ЕРИП.</p>
+    <a href="#quiz" class="btn-hero">Подобрать авто за 1 минуту</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     КВИЗ-ПОДБОРЩИК
+     ============================================================ -->
+<section class="quiz-section" id="quiz">
+  <div class="container">
+    <div class="section-head">
+      <h2>Подберём ваш электромобиль</h2>
+      <p>Ответьте на 2 вопроса — и мы пришлём персональную подборку с расчётом ЕРИП или кредита</p>
+    </div>
+
+    <div class="quiz-box">
+      <!-- Прогресс-бар: 3 шага -->
+      <div class="quiz-progress">
+        <div class="step active" id="progress-1"></div>
+        <div class="step" id="progress-2"></div>
+        <div class="step" id="progress-3"></div>
+      </div>
+
+      <!-- ШАГ 1: БРЕНД -->
+      <div class="quiz-step active" id="step-1">
+        <div class="quiz-step-title">Какой бренд вам ближе?</div>
+        <div class="quiz-step-sub">Выберите один из четырёх премиальных брендов</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-step="1" data-value="Zeekr">
+            <span class="opt-icon">⚡</span>
+            Zeekr
+            <span class="opt-hint">Премиум-электрика</span>
+          </button>
+          <button class="quiz-option" data-step="1" data-value="BYD">
+            <span class="opt-icon">🔋</span>
+            BYD
+            <span class="opt-hint">Технологии и надёжность</span>
+          </button>
+          <button class="quiz-option" data-step="1" data-value="Xiaomi SU7">
+            <span class="opt-icon">🚀</span>
+            Xiaomi SU7
+            <span class="opt-hint">Новинка 2025</span>
+          </button>
+          <button class="quiz-option" data-step="1" data-value="LiAuto">
+            <span class="opt-icon">🛋️</span>
+            LiAuto
+            <span class="opt-hint">Семейный премиум</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ШАГ 2: БЮДЖЕТ -->
+      <div class="quiz-step" id="step-2">
+        <div class="quiz-step-title">Какой у вас бюджет?</div>
+        <div class="quiz-step-sub">Стоимость указана с учётом доставки и растаможки</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-step="2" data-value="До $30 000">
+            <span class="opt-icon">💵</span>
+            До $30,000
+            <span class="opt-hint">Оптимальный старт</span>
+          </button>
+          <button class="quiz-option" data-step="2" data-value="$30 000 — $50 000">
+            <span class="opt-icon">💎</span>
+            $30,000 — $50,000
+            <span class="opt-hint">Комфорт-класс</span>
+          </button>
+          <button class="quiz-option" data-step="2" data-value="Более $50 000">
+            <span class="opt-icon">👑</span>
+            Более $50,000
+            <span class="opt-hint">Максимальный премиум</span>
+          </button>
+          <button class="quiz-option" data-step="2" data-value="Не определился">
+            <span class="opt-icon">🤔</span>
+            Пока не решил
+            <span class="opt-hint">Поможем с выбором</span>
+          </button>
+        </div>
+        <button class="btn-back" id="back-to-1">← Назад к выбору бренда</button>
+      </div>
+
+      <!-- ШАГ 3: ФИНАЛЬНАЯ ФОРМА -->
+      <div class="quiz-step" id="step-3">
+        <div class="summary-badge">
+          <span id="badge-brand">Бренд: —</span>
+          <span id="badge-budget">Бюджет: —</span>
+        </div>
+        <div class="quiz-step-title">Получить подборку</div>
+        <div class="quiz-step-sub">Менеджер пришлёт 3–5 вариантов с расчётом в ЕРИП или кредит</div>
+
+        <form class="final-form" id="final-form">
+          <div class="form-field">
+            <label for="userName">Ваше имя</label>
+            <input type="text" id="userName" placeholder="Иван" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label for="userPhone">Номер телефона</label>
+            <input type="tel" id="userPhone" placeholder="+375 (29) 123-45-67" autocomplete="tel">
+          </div>
+          <button type="submit" class="btn-final">
+            Получить подборку и расчёт ЕРИП/Кредита
+          </button>
+        </form>
+        <button class="btn-back" id="back-to-2">← Назад к бюджету</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ОКНО-ЧЕК ПОСЛЕ ОТПРАВКИ
+     ============================================================ -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <h3>Спасибо, <span id="successName">—</span>!</h3>
+    <p>Ваша заявка принята. Мы подберём авто под бюджет <strong id="successBudget">—</strong>.</p>
+
+    <div class="success-details">
+      <div><strong>Бренд:</strong> <span id="successBrand">—</span></div>
+      <div><strong>Бюджет:</strong> <span id="successBudget2">—</span></div>
+      <div><strong>Телефон:</strong> <span id="successPhone">—</span></div>
+    </div>
+
+    <p style="font-size: 13px; margin-bottom: 8px;">Менеджер свяжется в течение 15 минут и пришлёт подборку в Telegram или WhatsApp.</p>
+
+    <button class="btn
